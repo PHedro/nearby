@@ -55,7 +55,10 @@ class CustomerTestCase(unittest.TestCase):
     def test_customer_does_not_initiallize_missing_user_id_none(self):
         with self.assertRaises(TypeError):
             Customer(
-                name="Christina McArdle", user_id=None, latitude="52.986375", longitude="-6.043701",
+                name="Christina McArdle",
+                user_id=None,
+                latitude="52.986375",
+                longitude="-6.043701",
             )
 
     def test_customer_does_not_initiallize_missing_latitude(self):
@@ -67,7 +70,10 @@ class CustomerTestCase(unittest.TestCase):
     def test_customer_does_not_initiallize_missing_latitude_none(self):
         with self.assertRaises(TypeError):
             Customer(
-                user_id=12, name="Christina McArdle", latitude=None, longitude="-6.043701",
+                user_id=12,
+                name="Christina McArdle",
+                latitude=None,
+                longitude="-6.043701",
             )
 
     def test_customer_does_not_initiallize_missing_longitude(self):
@@ -79,7 +85,10 @@ class CustomerTestCase(unittest.TestCase):
     def test_customer_does_not_initiallize_missing_longitude_none(self):
         with self.assertRaises(TypeError):
             Customer(
-                user_id=12, name="Christina McArdle", latitude="-6.043701", longitude=None
+                user_id=12,
+                name="Christina McArdle",
+                latitude="-6.043701",
+                longitude=None,
             )
 
 

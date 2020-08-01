@@ -10,18 +10,24 @@ class GeoLocationTestCase(unittest.TestCase):
 
         self.assertEqual(float("52.986375"), result.latitude)
         self.assertEqual(float("-6.043701"), result.longitude)
+        self.assertEqual(0.9247867024464105, result.latitude_rad)
+        self.assertEqual(-0.10548248145607382, result.longitude_rad)
 
     def test_geo_location_initiallizes_with_floats_correctly(self):
         result = GeoLocation(latitude=52.986375, longitude=-6.043701,)
 
         self.assertEqual(float("52.986375"), result.latitude)
         self.assertEqual(float("-6.043701"), result.longitude)
+        self.assertEqual(0.9247867024464105, result.latitude_rad)
+        self.assertEqual(-0.10548248145607382, result.longitude_rad)
 
     def test_geo_location_initiallizes_with_floats_correctly_decimal(self):
         result = GeoLocation(latitude=Decimal(52.986375), longitude=Decimal(-6.043701),)
 
         self.assertEqual(float("52.986375"), result.latitude)
         self.assertEqual(float("-6.043701"), result.longitude)
+        self.assertEqual(0.9247867024464105, result.latitude_rad)
+        self.assertEqual(-0.10548248145607382, result.longitude_rad)
 
     def test_geo_location_initiallizes_with_int_correctly(self):
         result = GeoLocation(latitude=52, longitude=-6,)
@@ -34,12 +40,16 @@ class GeoLocationTestCase(unittest.TestCase):
 
         self.assertEqual(0, result.latitude)
         self.assertEqual(0, result.longitude)
+        self.assertEqual(0, result.latitude_rad)
+        self.assertEqual(0, result.longitude_rad)
 
     def test_geo_location_initiallizes_with_int_correctly_zeroes_decimal(self):
         result = GeoLocation(latitude=Decimal(0), longitude=Decimal(0),)
 
         self.assertEqual(0, result.latitude)
         self.assertEqual(0, result.longitude)
+        self.assertEqual(0, result.latitude_rad)
+        self.assertEqual(0, result.longitude_rad)
 
     def test_geo_location_does_not_initiallizes_with_invalid_string_lat(self):
         with self.assertRaises(ValueError):

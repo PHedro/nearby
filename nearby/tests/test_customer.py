@@ -23,6 +23,18 @@ class CustomerTestCase(unittest.TestCase):
         self.assertEqual(expected_values["latitude"], result.geolocation.latitude)
         self.assertEqual(expected_values["longitude"], result.geolocation.longitude)
 
+    def test_customer_repr_correctly(self):
+        result = repr(
+            Customer(
+                user_id=12,
+                name="Christina McArdle",
+                latitude="52.986375",
+                longitude="-6.043701",
+            )
+        )
+        expected = "Customer user_id: 12, name: Christina McArdle, geolocation: GeoLocation Lat: 52.986375, Long: -6.043701"
+        self.assertEqual(expected, result)
+
     def test_customer_does_not_initiallize_missing_coordinates(self):
         with self.assertRaises(TypeError):
             Customer(

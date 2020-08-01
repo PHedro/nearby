@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from nearby.customer import Customer
@@ -239,6 +240,55 @@ class CustomersInRangeTestCase(unittest.TestCase):
             origin=self.origin, source_file_path="data/customers.txt", distance_km=150
         )
         self.assertEqual(expected, result)
+
+
+class CustomerToFileTestCase(unittest.TestCase):
+    OUTPUT_PATH = "data/output.txt"
+
+    def setUp(self):
+        if os.path.exists(self.OUTPUT_PATH):
+            os.remove(self.OUTPUT_PATH)
+
+    def tearDown(self):
+        if os.path.exists(self.OUTPUT_PATH):
+            os.remove(self.OUTPUT_PATH)
+
+    def test_write_correctly(self):
+        Customer.write_to_file(data=[(99, "John Doe")], path=self.OUTPUT_PATH)
+
+        self.assertTrue(os.path.exists(self.OUTPUT_PATH))
+        self.assertTrue(os.path.isfile(self.OUTPUT_PATH))
+        self.assertTrue(os.path.getsize(self.OUTPUT_PATH) > 0)
+        with open(self.OUTPUT_PATH, "r") as data_file:
+            for line in data_file:
+                self.assertEqual("99, John Doe\n", line)
+
+    def test_write_correctly_range_100(self):
+        expected = [
+            (4, "Ian Kehoe"),
+            (5, "Nora Dempsey"),
+            (6, "Theresa Enright"),
+            (11, "Richard Finnegan"),
+            (12, "Christina McArdle"),
+            (13, "Olive Ahearn"),
+            (15, "Michael Ahearn"),
+            (31, "Alan Behan"),
+            (39, "Lisa Ahearn"),
+        ]
+        origin = GeoLocation(latitude=52.986375, longitude=-6.043701)
+        Customer.write_to_file(
+            data=Customer.in_range_from(
+                origin=origin, source_file_path="data/customers.txt"
+            ),
+            path=self.OUTPUT_PATH,
+        )
+
+        self.assertTrue(os.path.exists(self.OUTPUT_PATH))
+        self.assertTrue(os.path.isfile(self.OUTPUT_PATH))
+        self.assertTrue(os.path.getsize(self.OUTPUT_PATH) > 0)
+        with open(self.OUTPUT_PATH, "r") as data_file:
+            for _index, line in enumerate(data_file):
+                self.assertEqual("{}, {}\n".format(*expected[_index]), line)
 
 
 if __name__ == "__main__":

@@ -36,6 +36,14 @@ class DistanceCalculatorTestCase(unittest.TestCase):
         result = origin.distance_to(destination)
         self.assertEqual(expected, result)
 
+    def test_distance_in_km_correctly_223_6349651641532(self):
+        destination = GeoLocation(latitude=55.033, longitude=-8.112)
+        origin = GeoLocation(latitude=53.339428, longitude=-6.257664)
+        expected = 223.6349651641532
+
+        result = origin.distance_to(destination)
+        self.assertEqual(expected, result)
+
     def test_distance_in_km_correctly_278_4581750754194(self):
         destination = GeoLocation(latitude=52.2296756, longitude=21.0122287)
         origin = GeoLocation(latitude=52.406374, longitude=16.9251681)

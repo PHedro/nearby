@@ -1,7 +1,6 @@
-import json
-import os
 from decimal import Decimal
 
+from nearby.file_handler import from_file
 from nearby.geolocation import GeoLocation
 
 
@@ -13,6 +12,11 @@ class Customer:
         self.name = name
         self.geolocation = GeoLocation(
             latitude=float(latitude), longitude=float(longitude)
+        )
+
+    def __repr__(self):
+        return "Customer user_id: {}, name: {}, geolocation: {}".format(
+            self.user_id, self.name, self.geolocation
         )
 
     @staticmethod
@@ -34,31 +38,11 @@ class Customer:
             coordinate, (int, float, Decimal, str)
         )
 
-    def __repr__(self):
-        return "Customer user_id: {}, name: {}, geolocation: {}".format(
-            self.user_id, self.name, self.geolocation
-        )
-
-    @classmethod
-    def from_file(cls, path):
-        if os.path.exists(path) and os.path.isfile(path) and os.path.getsize(path) > 0:
-            with open(path, "r") as data_file:
-                for line in data_file:
-                    yield cls(**json.loads(line))
-        else:
-            raise FileNotFoundError
-
-    @classmethod
-    def write_to_file(cls, data, path):
-        with open(path, "w") as data_file:
-            for customer in data:
-                data_file.write("{}, {}\n".format(*customer))
-
     @classmethod
     def in_range_from(cls, origin, source_file_path, distance_km=100):
         customers = [
             (customer.user_id, customer.name)
-            for customer in cls.from_file(source_file_path)
+            for customer in from_file(path=source_file_path, class_to_cast=cls)
             if abs(origin.distance_to(customer.geolocation)) <= distance_km
         ]
         customers = sorted(customers, key=lambda customer: customer[0])

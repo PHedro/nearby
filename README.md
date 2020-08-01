@@ -1,5 +1,5 @@
 ### Usage:
-Install Python 3.8.5 or greater, you can do it via pyenv https://github.com/pyenv/pyenv#installation with and virtualenv
+Install Python 3.8.5 or greater, you can do it via pyenv https://github.com/pyenv/pyenv#installation and virtualenv
 ```commandline
 pyenv install 3.8.5
 pyenv virtualenv 3.8.5 nearby

@@ -31,5 +31,9 @@ Or from anywhere, but with virtualenv activated:
 ```commandline
 python /path/to/project/sample_usage.py
 ```
+Running tests, from the project folder (the one containing README.md):
+```commandline
+python -m unittest discover -v 
+```
 
 You don't need to install any extra library, the project uses only the batteries included in Python 3.8.5.

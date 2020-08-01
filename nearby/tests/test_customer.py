@@ -108,6 +108,7 @@ class CustomerTestCase(unittest.TestCase):
 
 class CustomersInRangeTestCase(unittest.TestCase):
     def setUp(self):
+        self.dir_path = os.path.dirname(os.path.realpath(__file__))
         self.origin = GeoLocation(latitude=52.986375, longitude=-6.043701)
 
     def test_return_correctly_range100(self):
@@ -123,7 +124,7 @@ class CustomersInRangeTestCase(unittest.TestCase):
             (39, "Lisa Ahearn"),
         ]
         result = Customer.in_range_from(
-            origin=self.origin, source_file_path="data/customers.txt", distance_km=100
+            origin=self.origin, source_file_path="{}/data/customers.txt".format(self.dir_path), distance_km=100
         )
         self.assertEqual(expected, result)
 
@@ -137,7 +138,7 @@ class CustomersInRangeTestCase(unittest.TestCase):
             (39, "Lisa Ahearn"),
         ]
         result = Customer.in_range_from(
-            origin=self.origin, source_file_path="data/customers.txt", distance_km=30
+            origin=self.origin, source_file_path="{}/data/customers.txt".format(self.dir_path), distance_km=30
         )
         self.assertEqual(expected, result)
 
@@ -147,7 +148,7 @@ class CustomersInRangeTestCase(unittest.TestCase):
             (12, "Christina McArdle"),
         ]
         result = Customer.in_range_from(
-            origin=self.origin, source_file_path="data/customers.txt", distance_km=15
+            origin=self.origin, source_file_path="{}/data/customers.txt".format(self.dir_path), distance_km=15
         )
         self.assertEqual(expected, result)
 
@@ -174,7 +175,7 @@ class CustomersInRangeTestCase(unittest.TestCase):
             (39, "Lisa Ahearn"),
         ]
         result = Customer.in_range_from(
-            origin=self.origin, source_file_path="data/customers.txt", distance_km=150
+            origin=self.origin, source_file_path="{}/data/customers.txt".format(self.dir_path), distance_km=150
         )
         self.assertEqual(expected, result)
 

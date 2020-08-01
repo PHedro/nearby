@@ -7,8 +7,11 @@ from nearby.geolocation import GeoLocation
 
 
 class FileHandlerLoaderTestCase(unittest.TestCase):
+    def setUp(self):
+        self.dir_path = os.path.dirname(os.path.realpath(__file__))
+
     def test_loads_correctly_from_base_file(self):
-        result = list(from_file(path="data/customers.txt", class_to_cast=Customer))
+        result = list(from_file(path="{}/data/customers.txt".format(self.dir_path), class_to_cast=Customer))
         expected = [
             (12, "Christina McArdle", 52.986375, -6.043701),
             (1, "Alice Cahill", 51.92893, -10.27699),
@@ -51,7 +54,7 @@ class FileHandlerLoaderTestCase(unittest.TestCase):
             self.assertEqual(_result.geolocation.longitude, expected[_index][3])
 
     def test_loads_correctly_from_base_file_without_cast(self):
-        result = list(from_file(path="data/customers.txt", class_to_cast=None))
+        result = list(from_file(path="{}/data/customers.txt".format(self.dir_path), class_to_cast=None))
         expected = [
             (12, "Christina McArdle", "52.986375", "-6.043701"),
             (1, "Alice Cahill", "51.92893", "-10.27699"),
@@ -95,7 +98,7 @@ class FileHandlerLoaderTestCase(unittest.TestCase):
 
     def test_loads_correctly_from_short_file(self):
         result = list(
-            from_file(path="data/customers_short.txt", class_to_cast=Customer)
+            from_file(path="{}/data/customers_short.txt".format(self.dir_path), class_to_cast=Customer)
         )
         expected = [
             (12, "Christina McArdle", 52.986375, -6.043701),
@@ -111,27 +114,27 @@ class FileHandlerLoaderTestCase(unittest.TestCase):
 
     def test_loads_file_does_not_exists(self):
         with self.assertRaises(FileNotFoundError):
-            list(from_file(path="data/customers_shorter.txt", class_to_cast=Customer))
+            list(from_file(path="{}/data/customers_shorter.txt".format(self.dir_path), class_to_cast=Customer))
 
 
 class FileHandlerWriterTestCase(unittest.TestCase):
-    OUTPUT_PATH = "data/output.txt"
-
     def setUp(self):
-        if os.path.exists(self.OUTPUT_PATH):
-            os.remove(self.OUTPUT_PATH)
+        self.dir_path = os.path.dirname(os.path.realpath(__file__))
+        self.output_path = "{}/data/output.txt".format(self.dir_path)
+        if os.path.exists(self.output_path):
+            os.remove(self.output_path)
 
     def tearDown(self):
-        if os.path.exists(self.OUTPUT_PATH):
-            os.remove(self.OUTPUT_PATH)
+        if os.path.exists(self.output_path):
+            os.remove(self.output_path)
 
     def test_write_correctly(self):
-        write_to_file(data=[(99, "John Doe")], path=self.OUTPUT_PATH)
+        write_to_file(data=[(99, "John Doe")], path=self.output_path)
 
-        self.assertTrue(os.path.exists(self.OUTPUT_PATH))
-        self.assertTrue(os.path.isfile(self.OUTPUT_PATH))
-        self.assertTrue(os.path.getsize(self.OUTPUT_PATH) > 0)
-        with open(self.OUTPUT_PATH, "r") as data_file:
+        self.assertTrue(os.path.exists(self.output_path))
+        self.assertTrue(os.path.isfile(self.output_path))
+        self.assertTrue(os.path.getsize(self.output_path) > 0)
+        with open(self.output_path, "r") as data_file:
             for line in data_file:
                 self.assertEqual("99, John Doe\n", line)
 
@@ -150,15 +153,15 @@ class FileHandlerWriterTestCase(unittest.TestCase):
         origin = GeoLocation(latitude=52.986375, longitude=-6.043701)
         write_to_file(
             data=Customer.in_range_from(
-                origin=origin, source_file_path="data/customers.txt"
+                origin=origin, source_file_path="{}/data/customers.txt".format(self.dir_path)
             ),
-            path=self.OUTPUT_PATH,
+            path=self.output_path,
         )
 
-        self.assertTrue(os.path.exists(self.OUTPUT_PATH))
-        self.assertTrue(os.path.isfile(self.OUTPUT_PATH))
-        self.assertTrue(os.path.getsize(self.OUTPUT_PATH) > 0)
-        with open(self.OUTPUT_PATH, "r") as data_file:
+        self.assertTrue(os.path.exists(self.output_path))
+        self.assertTrue(os.path.isfile(self.output_path))
+        self.assertTrue(os.path.getsize(self.output_path) > 0)
+        with open(self.output_path, "r") as data_file:
             for _index, line in enumerate(data_file):
                 self.assertEqual("{}, {}\n".format(*expected[_index]), line)
 
